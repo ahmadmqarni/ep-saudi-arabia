@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>EP Saudi Arabia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="gate-overlay" id="gate">
+  <form class="gate-card" id="gateForm">
+    <span class="gate-eyebrow">Cardiac Electrophysiology &middot; Saudi Arabia</span>
+    <h1 class="gate-title">EP Directory</h1>
+    <p class="gate-sub">This is a private reference. Enter the password to continue.</p>
+    <input class="gate-input" id="gatePassword" type="password" placeholder="Password" autocomplete="off" autofocus>
+    <button class="gate-submit" type="submit">Unlock</button>
+    <p class="gate-error" id="gateError" hidden>Incorrect password &mdash; try again.</p>
+  </form>
+</div>
+
+<div class="app" id="app" hidden>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-eyebrow">Cardiac Electrophysiology &middot; Saudi Arabia</span>
+      <h1 class="brand-title">EP Directory <em>&mdash; personal reference</em></h1>
+    </div>
+    <div class="search-wrap" id="searchWrap" hidden>
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-input" id="searchInput" type="text" placeholder="Search a name or city&hellip;" autocomplete="off">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <div class="topbar-controls">
+      <div class="view-tabs" id="viewTabs">
+        <button class="view-tab active" id="tabOverview" data-view="overview">Overview</button>
+        <button class="view-tab" id="tabMap" data-view="map">Map</button>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" type="button">
+        <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12H5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+        <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="view" id="overviewView"></main>
+
+  <main class="view" id="mapView" hidden>
+    <div class="stage" id="stage">
+      <svg class="map-svg" id="mapSvg" viewBox="0 0 950 900" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="stage-hint">Hover a city to see its centers. Select a center to view its electrophysiologists.</div>
+      <div class="stage-tally" id="stageTally"></div>
+    </div>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="panel" id="panel">
+  <div class="panel-head">
+    <button class="panel-close" id="panelClose" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+    </button>
+    <p class="panel-eyebrow" id="panelEyebrow">Center</p>
+    <h2 class="panel-title" id="panelTitle">&nbsp;</h2>
+    <p class="panel-sub" id="panelSub">&nbsp;</p>
+  </div>
+  <div class="panel-body" id="panelBody"></div>
+</aside>
+
+<script src="data.js"></script>
+<script src="theme.js"></script>
+<script src="gate.js"></script>
+<script src="overview.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
