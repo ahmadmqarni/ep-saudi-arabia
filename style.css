@@ -532,6 +532,60 @@ body{
   font-variant-numeric:tabular-nums;
 }
 
+/* ---------- Region accordion (all physicians, grouped) ---------- */
+.region-accordion-list{display:flex;flex-direction:column;gap:10px;}
+.region-accordion{
+  border:1px solid var(--line-soft);
+  border-radius:14px;
+  background:var(--paper-raised);
+  overflow:hidden;
+}
+.region-header{
+  width:100%;
+  display:flex;align-items:center;gap:12px;
+  padding:15px 18px;
+  background:none;border:none;
+  cursor:pointer;
+  text-align:left;
+  font-family:var(--font-display);
+  color:var(--ink);
+}
+.region-header:hover{background:var(--accent-soft);}
+.region-header-name{font-size:14.5px;font-weight:600;flex:1;}
+.region-header-count{
+  font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;
+}
+.region-chevron{width:16px;height:16px;color:var(--ink-soft);flex-shrink:0;transition:transform .18s ease;}
+.region-header[aria-expanded="true"] .region-chevron{transform:rotate(180deg);}
+.region-body{padding:4px 18px 20px;border-top:1px solid var(--line-soft);}
+.region-body-empty{font-size:13px;color:var(--ink-soft);margin:16px 0 0;}
+.physician-grid{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:18px 14px;
+  margin-top:16px;
+}
+.physician-tile{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  background:none;border:none;
+  padding:6px;border-radius:10px;
+  cursor:pointer;
+  transition:background .12s ease;
+}
+.physician-tile:hover{background:var(--accent-soft);}
+.physician-tile-photo{
+  width:64px;height:64px;border-radius:50%;
+  object-fit:cover;
+  background:var(--line-soft);
+  border:1px solid var(--line-soft);
+}
+.physician-tile-photo.fallback{display:flex;align-items:center;justify-content:center;padding:14px;color:var(--ink-soft);box-sizing:border-box;}
+.physician-tile-name{
+  font-size:12.5px;font-weight:500;color:var(--ink);
+  text-align:center;line-height:1.3;
+}
+
 @media (max-width:640px){
   .topbar{flex-direction:column;align-items:stretch;gap:12px;padding:14px 16px;}
   .topbar-controls{justify-content:space-between;}
@@ -544,4 +598,5 @@ body{
   .stat-row{margin:24px 0 32px;}
   .chart-row{grid-template-columns:96px 1fr 30px;gap:8px;}
   .popover{max-width:calc(100vw - 32px);}
+  .physician-grid{grid-template-columns:repeat(2, 1fr);}
 }

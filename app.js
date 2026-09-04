@@ -1,5 +1,3 @@
-const SILHOUETTE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4.2 3.4-6.5 7.5-6.5s7.5 2.3 7.5 6.5"/></svg>`;
-
 /* ======================= RENDER MAP ======================= */
 const svg = document.getElementById('mapSvg');
 const NS = 'http://www.w3.org/2000/svg';

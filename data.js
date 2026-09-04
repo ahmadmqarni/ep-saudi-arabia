@@ -145,6 +145,8 @@ const PHOTOS = {
   'Yahya AlHubaishi PSCC Riyadh.jpg': 'images/' + encodeURIComponent('Yahya AlHubaishi PSCC Riyadh.jpg'),
 };
 
+const SILHOUETTE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4.2 3.4-6.5 7.5-6.5s7.5 2.3 7.5 6.5"/></svg>`;
+
 function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }

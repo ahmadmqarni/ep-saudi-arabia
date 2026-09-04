@@ -30,6 +30,17 @@ function computeTrainingCounts(){
   return {rows, known};
 }
 
+function peopleByRegion(){
+  const groups = {};
+  Object.keys(REGIONS).forEach(r=>groups[r]=[]);
+  PEOPLE.forEach(p=>{
+    const city = CITIES[CENTERS[p.center].city];
+    groups[city.region].push(p);
+  });
+  Object.keys(groups).forEach(r=>groups[r].sort((a,b)=>a.name.localeCompare(b.name)));
+  return groups;
+}
+
 /* ======================= CHART (thin horizontal bars) ======================= */
 function barChartHTML(rows, totalForScale){
   const max = Math.max(...rows.map(r=>r.count), 1);
@@ -43,6 +54,49 @@ function barChartHTML(rows, totalForScale){
         <span class="chart-value">${r.count}</span>
       </div>`;
   }).join('');
+}
+
+/* ======================= REGION ACCORDION (photo + name grid) ======================= */
+function physicianTileHTML(p){
+  const src = p.photo && PHOTOS[p.photo];
+  const photoInner = src
+    ? `<img class="physician-tile-photo" src="${src}" alt="${escapeHtml(p.name)}">`
+    : `<span class="physician-tile-photo fallback">${SILHOUETTE}</span>`;
+  return `<button class="physician-tile" data-name="${escapeHtml(p.name)}" data-center="${p.center}">${photoInner}<span class="physician-tile-name">${escapeHtml(p.name)}</span></button>`;
+}
+
+function regionAccordionHTML(regionRows, groups){
+  return regionRows.map(r=>{
+    const people = groups[r.id];
+    const body = people.length
+      ? `<div class="physician-grid">${people.map(physicianTileHTML).join('')}</div>`
+      : `<p class="region-body-empty">No physicians listed here yet.</p>`;
+    return `
+      <div class="region-accordion">
+        <button class="region-header" data-region="${r.id}" aria-expanded="false">
+          <span class="region-header-name">${escapeHtml(REGIONS[r.id].name)}</span>
+          <span class="region-header-count">${r.count}</span>
+          <svg class="region-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="region-body" hidden>${body}</div>
+      </div>`;
+  }).join('');
+}
+
+function wireRegionAccordion(){
+  document.querySelectorAll('.region-header').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const body = btn.nextElementSibling;
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      body.hidden = open;
+    });
+  });
+  document.querySelectorAll('.physician-tile').forEach(tile=>{
+    tile.addEventListener('click', ()=>{
+      openPanel(tile.getAttribute('data-center'), tile.getAttribute('data-name'));
+    });
+  });
 }
 
 /* ======================= BUILD PAGE ======================= */
@@ -100,8 +154,17 @@ function buildOverview(){
         ${topTrainingPct}% of everyone with a known training location.</p>
         <div class="chart">${barChartHTML(trainingRows)}</div>
       </section>
+
+      <section class="overview-section">
+        <h2 class="overview-heading">All physicians</h2>
+        <p class="overview-text">Every physician on record, grouped by region. Click a region to see everyone
+        in it, and click a name for their center, training, and contact details.</p>
+        <div class="region-accordion-list">${regionAccordionHTML(regionRows, peopleByRegion())}</div>
+      </section>
     </div>
   `;
+
+  wireRegionAccordion();
 }
 
 buildOverview();
