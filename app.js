@@ -108,11 +108,10 @@ function openPopover(cityId, targetGroup){
   const stageRect = stage.getBoundingClientRect();
   const dotRect = targetGroup.querySelector('.city-dot').getBoundingClientRect();
   const relX = dotRect.left + dotRect.width/2 - stageRect.left;
-  const relY = dotRect.top - stageRect.top;
-  const below = relY < 130;
-  if(below) pop.classList.add('below');
+  const aboveTop = dotRect.top - stageRect.top;
+  const belowTop = dotRect.bottom - stageRect.top;
   pop.style.left = relX+'px';
-  pop.style.top = (below ? dotRect.bottom - stageRect.top : relY)+'px';
+  pop.style.top = aboveTop+'px';
 
   let html = `<p class="popover-city">${city.name}</p><p class="popover-region">${REGIONS[city.region].name}</p>`;
   if(city.centers.length===0){
@@ -131,13 +130,36 @@ function openPopover(cityId, targetGroup){
   pop.querySelectorAll('.center-chip').forEach(btn=>{
     btn.addEventListener('click',(e)=>{ e.stopPropagation(); openPanel(btn.getAttribute('data-center')); });
   });
+  const pad = 8;
+  /* never let a long list (a city with many centers) outgrow the stage
+     itself — cap it to the actual space available and let it scroll */
+  pop.style.maxHeight = Math.max(120, stageRect.height - pad*2) + 'px';
+
   stage.appendChild(pop);
   popoverEl = pop;
 
+  /* flip below the dot if positioning above would run the popover past the
+     top of the stage — a fixed threshold can't work here since taller lists
+     need more headroom than short ones */
+  let popRect = pop.getBoundingClientRect();
+  if(popRect.top < stageRect.top + pad){
+    pop.classList.add('below');
+    pop.style.top = belowTop+'px';
+    popRect = pop.getBoundingClientRect();
+  }
+
+  /* then, regardless of which way it's pointing, slide it up if it still
+     runs past the bottom of the stage (a dot sitting low on a short screen,
+     paired with a long list) — clamped so it never gets pushed back off
+     the top either */
+  if(popRect.bottom > stageRect.bottom - pad){
+    const overflow = popRect.bottom - (stageRect.bottom - pad);
+    pop.style.top = (parseFloat(pop.style.top) - overflow) + 'px';
+    popRect = pop.getBoundingClientRect();
+  }
+
   /* clamp horizontally so the popover never runs off the edge of the stage
      (matters most on narrow/mobile viewports where cities sit near the edge) */
-  const pad = 8;
-  const popRect = pop.getBoundingClientRect();
   let shift = 0;
   if(popRect.left < stageRect.left + pad) shift = (stageRect.left + pad) - popRect.left;
   else if(popRect.right > stageRect.right - pad) shift = (stageRect.right - pad) - popRect.right;

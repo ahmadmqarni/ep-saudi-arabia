@@ -275,6 +275,7 @@ body{
   z-index:30;
   min-width:190px;
   max-width:240px;
+  overflow-y:auto;
   background:var(--paper-raised);
   border:1px solid var(--line-soft);
   border-radius:12px;
