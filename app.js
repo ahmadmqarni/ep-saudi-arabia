@@ -198,6 +198,7 @@ function personCardHTML(p, highlight){
     : '';
   const links = [];
   if(p.linkedin) links.push(`<a class="person-link" href="${escapeHtml(p.linkedin)}" target="_blank" rel="noopener noreferrer">${LINKEDIN_ICON}LinkedIn</a>`);
+  if(p.profile) links.push(`<a class="person-link" href="${escapeHtml(p.profile)}" target="_blank" rel="noopener noreferrer">${LINKEDIN_ICON}Profile</a>`);
   if(p.phone) links.push(`<a class="person-link" href="${telHref(p.phone)}">${PHONE_ICON}${escapeHtml(p.phone)}</a>`);
   const linksHtml = links.length ? `<div class="person-links">${links.join('')}</div>` : '';
   return `<div class="person-card${highlight?' flash':''}" data-person="${escapeHtml(p.name)}">${photoInner}<div class="person-info"><span class="person-name">${escapeHtml(p.name)}</span>${uniHtml}${linksHtml}</div></div>`;

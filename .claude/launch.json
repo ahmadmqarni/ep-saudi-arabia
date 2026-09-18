@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ep-saudi-arabia-project",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8744", "--directory", "D:/CoWork Project/Coding/ep-saudi-arabia"],
+      "port": 8744
+    },
+    {
+      "name": "ep-preview",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8743", "--directory", "C:/Users/ahmad/AppData/Local/Temp/claude/D--CoWork-Project-Coding/d23e6962-4f51-4090-a99e-f94676143691/scratchpad"],
+      "port": 8743
+    }
+  ]
+}
