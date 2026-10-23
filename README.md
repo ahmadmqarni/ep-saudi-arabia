@@ -9,13 +9,36 @@ interactive map to browse by region, city, and center.
 ```
 index.html    page structure
 style.css     all styling (light/dark theme tokens)
-data.js       REGIONS / CITIES / CENTERS / PEOPLE, plus the photo filename map
+data.js       REGIONS / CITIES (real lat/lon) / CENTERS / PEOPLE, plus the photo filename map
+geo.js        province boundaries for the map — generated, don't hand-edit
 theme.js      dark mode toggle
 gate.js       password gate
 overview.js   overview page (stats + charts)
-app.js        map rendering, popover/panel/search
+map.js        the map: provinces, city markers, zoom/pan, label placement
+app.js        popover / detail panel / search / tabs
 images/       physician photos
+tools/        build_geo.py — regenerates geo.js from open boundary data
 ```
+
+## The map
+
+Province shapes are real boundaries from OpenStreetMap, via
+[geoBoundaries](https://www.geoboundaries.org/) (`gbOpen`, Saudi Arabia ADM1,
+ODbL 1.0), projected with Web Mercator and simplified for the web.
+Cities are placed from their real latitude/longitude in `CITIES`, so adding a
+city is just adding an entry with `lat` and `lon`. The map zooms and pans
+(scroll, pinch, drag, or the +/− buttons); markers and labels stay the same
+size on screen, and lower-priority labels hide when they would collide.
+
+To rebuild `geo.js` (for example from a newer boundary release):
+
+```bash
+curl -L -o sau_adm1.geojson "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/SAU/ADM1/geoBoundaries-SAU-ADM1.geojson"
+python tools/build_geo.py sau_adm1.geojson geo.js
+```
+
+Boundaries © OpenStreetMap contributors, used under the
+[ODbL](https://opendatacommons.org/licenses/odbl/1-0/).
 
 ## Running locally
 

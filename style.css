@@ -217,33 +217,50 @@ body{
   min-height:0;
   overflow:hidden;
 }
-.map-svg{width:100%;height:100%;display:block;}
-
-.landmass{fill:var(--paper-raised);stroke:var(--line);stroke-width:2;stroke-linejoin:round;}
-.region-label{
-  font-family:var(--font-mono);
-  font-size:13px;
-  letter-spacing:.16em;
-  fill:var(--ink-soft);
-  opacity:.55;
-  text-transform:uppercase;
+.map-svg{
+  width:100%;height:100%;display:block;
+  touch-action:none;cursor:grab;
+  user-select:none;-webkit-user-select:none;
 }
-.contour{fill:none;stroke:var(--line-soft);stroke-width:1;stroke-dasharray:2 5;}
+.map-svg.is-dragging{cursor:grabbing;}
+.is-hidden{display:none;}
+
+/* Everything inside .map-viewport is zoomed with it, so anything that should
+   stay one size on screen (strokes, markers, labels) is sized in screen px:
+   strokes via non-scaling-stroke, markers/labels via counter-scaling in map.js. */
+.province-halo{
+  fill:var(--line);stroke:var(--line);stroke-width:3px;stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;pointer-events:none;
+}
+.province{
+  fill:var(--paper-raised);stroke:var(--line);stroke-width:.9px;stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;fill-rule:evenodd;
+  transition:fill .15s ease;
+}
+.province:hover{fill:var(--accent-soft);}
+.province-label{
+  font-family:var(--font-mono);
+  font-size:10px;letter-spacing:.14em;
+  fill:var(--ink-soft);opacity:.7;
+  dominant-baseline:central;
+  pointer-events:none;
+}
 
 .city{cursor:pointer;}
 .city-hit{fill:transparent;pointer-events:all;}
 .city-dot{
   fill:var(--paper-raised);
   stroke:var(--accent);
-  stroke-width:2;
+  stroke-width:2px;
   transform-origin:center;
   transform-box:fill-box;
   transition:transform .18s cubic-bezier(.34,1.56,.64,1), fill .18s ease;
   pointer-events:none;
 }
 .city.empty .city-dot{
-  stroke:var(--line);
-  opacity:.55;
+  stroke:var(--ink-soft);
+  stroke-width:1.5px;
+  opacity:.7;
 }
 .city-pulse{
   fill:var(--accent);
@@ -253,21 +270,42 @@ body{
   pointer-events:none;
 }
 .city:hover .city-dot, .city.active .city-dot{
-  transform:scale(1.65);
+  transform:scale(1.5);
   fill:var(--accent);
 }
-.city:hover .city-pulse, .city.active .city-pulse{opacity:.16;transform:scale(3.2);transition:transform .4s ease, opacity .4s ease;}
+.city:hover .city-pulse, .city.active .city-pulse{opacity:.16;transform:scale(2.2);transition:transform .4s ease, opacity .4s ease;}
 .city-label{
   font-family:var(--font-mono);
-  font-size:12px;
+  font-size:11.5px;
   font-weight:500;
   fill:var(--ink);
-  transition:font-size .18s ease, fill .18s ease;
+  paint-order:stroke;stroke:var(--paper-raised);stroke-width:3px;stroke-linejoin:round;
+  transition:fill .18s ease;
   pointer-events:none;
 }
-.city.empty .city-label{fill:var(--ink-soft);}
-.city:hover .city-label, .city.active .city-label{fill:var(--accent-strong);font-size:13.5px;font-weight:600;}
+.city.empty .city-label{fill:var(--ink-soft);font-weight:400;font-size:10.5px;}
+.city:hover .city-label, .city.active .city-label{fill:var(--accent-strong);font-weight:600;}
 .city-label-count{fill:var(--ink-soft);font-weight:400;font-size:10px;}
+
+.map-controls{
+  position:absolute;top:14px;right:14px;
+  display:flex;flex-direction:column;gap:6px;
+  z-index:5;
+}
+.map-control{
+  width:34px;height:34px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--paper-raised);
+  border:1px solid var(--line-soft);
+  border-radius:9px;
+  color:var(--ink-soft);
+  cursor:pointer;
+  font-family:var(--font-mono);font-size:18px;line-height:1;
+  transition:color .15s ease, border-color .15s ease;
+}
+.map-control:hover:not(:disabled){color:var(--ink);border-color:var(--line);}
+.map-control:disabled{opacity:.4;cursor:default;}
+.map-control svg{width:15px;height:15px;}
 
 /* ---------- Popover ---------- */
 .popover{
@@ -435,6 +473,16 @@ body{
   line-height:1.6;
 }
 .stage-tally b{color:var(--ink);font-weight:600;}
+.stage-attrib{
+  position:absolute;
+  left:28px;bottom:4px;
+  font-family:var(--font-mono);
+  font-size:9.5px;
+  color:var(--ink-soft);
+  opacity:.75;
+  white-space:nowrap;
+  pointer-events:none;
+}
 
 /* ---------- Password gate ---------- */
 .gate-overlay{
@@ -599,5 +647,7 @@ body{
   .stat-row{margin:24px 0 32px;}
   .chart-row{grid-template-columns:96px 1fr 30px;gap:8px;}
   .popover{max-width:calc(100vw - 32px);}
+  .stage-attrib{left:12px;}
+  .map-controls{top:10px;right:10px;}
   .physician-grid{grid-template-columns:repeat(2, 1fr);}
 }

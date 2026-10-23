@@ -7,18 +7,34 @@ const REGIONS = {
   southern: {name:'Southern Region'},
 };
 
+/* Real-world coordinates (lat/lon) — the map projects them onto the province
+   shapes in geo.js. capital:true marks a province capital (its name is kept on
+   the map ahead of other cities without physicians). labelSide: where the
+   name sits relative to the dot — right (default), left or below. */
 const CITIES = {
-  tabuk:   {name:'Tabuk',               region:'northern', x:91,  y:340},
-  jouf:    {name:'Al-Jouf',             region:'northern', x:250, y:281},
-  hail:    {name:'Hail',                region:'northern', x:330, y:391},
-  madinah: {name:'Madinah',             region:'western',  x:211, y:517},
-  jeddah:  {name:'Jeddah',              region:'western',  x:240, y:657},
-  makkah:  {name:'Makkah',              region:'western',  x:304, y:660},
-  riyadh:  {name:'Riyadh',              region:'central',  x:532, y:517},
-  kharj:   {name:'Al-Kharj',            region:'central',  x:565, y:559},
-  dammam:  {name:'Dammam / Al-Khobar',  region:'eastern',  x:680, y:441, mapLabel:'Dammam'},
-  abha:    {name:'Abha',                region:'southern', x:346, y:760},
-  najran:  {name:'Najran',              region:'southern', x:460, y:780},
+  riyadh:   {name:'Riyadh',              region:'central',  lat:24.7136, lon:46.6753, capital:true},
+  kharj:    {name:'Al-Kharj',            region:'central',  lat:24.1556, lon:47.3120},
+  buraidah: {name:'Buraidah',            region:'central',  lat:26.3260, lon:43.9750, capital:true},
+
+  tabuk:    {name:'Tabuk',               region:'northern', lat:28.3838, lon:36.5662, capital:true},
+  jouf:     {name:'Al-Jouf',             region:'northern', lat:29.9697, lon:40.2064, capital:true},
+  hail:     {name:'Hail',                region:'northern', lat:27.5114, lon:41.7208, capital:true},
+  arar:     {name:'Arar',                region:'northern', lat:30.9753, lon:41.0381, capital:true},
+
+  dammam:   {name:'Dammam / Al-Khobar',  region:'eastern',  lat:26.4207, lon:50.0888, capital:true, mapLabel:'Dammam'},
+  ahsa:     {name:'Al-Ahsa',             region:'eastern',  lat:25.3648, lon:49.5873},
+  hafr:     {name:'Hafr Al-Batin',       region:'eastern',  lat:28.4328, lon:45.9708},
+
+  madinah:  {name:'Madinah',             region:'western',  lat:24.4709, lon:39.6122, capital:true},
+  jeddah:   {name:'Jeddah',              region:'western',  lat:21.5433, lon:39.1728, labelSide:'left'},
+  makkah:   {name:'Makkah',              region:'western',  lat:21.3891, lon:39.8579, capital:true, labelSide:'below'},
+  taif:     {name:'Taif',                region:'western',  lat:21.2703, lon:40.4158},
+
+  abha:     {name:'Abha',                region:'southern', lat:18.2164, lon:42.5053, capital:true, labelSide:'left'},
+  khamis:   {name:'Khamis Mushait',      region:'southern', lat:18.3000, lon:42.7333},
+  albaha:   {name:'Al Bahah',            region:'southern', lat:20.0129, lon:41.4677, capital:true},
+  jazan:    {name:'Jazan',               region:'southern', lat:16.8892, lon:42.5511, capital:true, labelSide:'left'},
+  najran:   {name:'Najran',              region:'southern', lat:17.4933, lon:44.1277, capital:true},
 };
 
 const CENTERS = {
